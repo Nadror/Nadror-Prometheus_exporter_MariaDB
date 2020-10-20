@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+   mariadb:
+     container_name: mariadb
+     image: mariadb:latest
+     restart: always
+     environment: 
+       MYSQL_ROOT_PASSWORD: password
+       MYSQL_USER: dbuser
+       MYSQL_PASSWORD: password
+     ports: 
+      - "3306:3306"
+     volumes: 
+      - mysql:/var/lib/mysql
+     networks: 
+      - backend
+
+   prometheus:
+     container_name: prometheus
+     image: prom/prometheus
+     ports:
+      - "9090:9090"
+     links:
+      - mysql-exporter
+      - mariadb
+     depends_on: 
+      - mysql-exporter
+     volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+     command: 
+      - --config.file=/etc/prometheus/prometheus.yml
+     networks: 
+      - backend
+
+   mysql-exporter:
+     container_name: mysql-exporter
+     image: prom/mysqld-exporter:latest
+     restart: always
+     links:
+      - mariadb
+     environment: 
+      - DATA_SOURCE_NAME=root:password@(mariadb:3306)/
+     ports: 
+      - "9104:9104"
+     networks: 
+      - backend
+
+networks: 
+  backend:
+volumes:
+  mysql:
+  
