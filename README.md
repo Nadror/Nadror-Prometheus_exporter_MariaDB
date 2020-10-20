@@ -11,7 +11,7 @@ At the begenning you need to clone the repo :
 ```sh
 git clone https://github.com/Nadror/Nadror-Prometheus_exporter_MariaDB.git
 ```
-After that you can launch the docker-compose :
+After this you launch the docker-compose :
 
 ```sh
 docker-compose up -d
