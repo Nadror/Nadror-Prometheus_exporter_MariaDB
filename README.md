@@ -30,6 +30,4 @@ Now we can try to go to the GUI of Prometheus :
 
 Type on your browser ```http://localhost:9090/graph``` or ```http://ServerIP:9090/graph```
 
-**ENJOY**
-
 
